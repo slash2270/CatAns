@@ -2,26 +2,30 @@ package com.example.catans.repo
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.catans.model.Article
-import com.example.catans.network.NewsService
+import com.example.catans.model.Airport
+import com.example.catans.network.ApiService
+import com.example.catans.util.EnumAirport
 import java.lang.Exception
 
-class RepoPagingSource(private val newsService: NewsService) : PagingSource<Int, Article>() {
+class RepoPagingSource(private val apiService: ApiService, private val enum : EnumAirport) : PagingSource<Int, Airport>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Airport> {
         return try {
             val page = params.key ?: 1
             val pageSize = params.loadSize
-            val repoResponse = newsService.getData(page, pageSize)
+            val repoResponse = when(enum) {
+                EnumAirport.Departure -> apiService.getAirportDeparture(page, pageSize)
+                EnumAirport.Inbound -> apiService.getAirportInbound(page, pageSize)
+            }
             val prevKey = if (page > 1) page - 1 else null
-            val nextKey = if (repoResponse.articles?.isEmpty() == true) page + 1 else null
-            LoadResult.Page(repoResponse.articles!!, prevKey, nextKey)
+            val nextKey = if (repoResponse?.isNotEmpty() == true) page + 1 else null
+            LoadResult.Page(repoResponse!!, prevKey, nextKey)
         } catch (e: Exception) {
             e.printStackTrace()
             LoadResult.Error(e)
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Article>): Int? = null
+    override fun getRefreshKey(state: PagingState<Int, Airport>): Int? = null
 
 }

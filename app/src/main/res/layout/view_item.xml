@@ -6,7 +6,7 @@
     <import type="android.view.View"/>
     <variable
         name="item"
-        type="com.example.catans.model.Article" />
+        type="com.example.catans.model.Airport" />
 </data>
 
 <LinearLayout
@@ -24,14 +24,14 @@
         android:orientation="horizontal"
         tools:ignore="UseCompoundDrawables">
 
-        <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="75dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="10dp"
-            android:scaleType="fitCenter"
-            android:contentDescription="@string/todo"
-            android:layout_marginRight="10dp" />
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_image"-->
+<!--            android:layout_width="75dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:contentDescription="@string/todo"-->
+<!--            android:layout_marginRight="10dp" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:layout_centerInParent="true"
             android:maxLines="3"
             android:ellipsize="end"
-            tools:text="@{item.description}" />
+            tools:text="@{item.actualTime}" />
 
         </RelativeLayout>
 

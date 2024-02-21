@@ -1,22 +1,24 @@
-package com.example.catans.fragment
+package com.example.catans.base
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import com.example.catans.databinding.FragmentFirstBinding
-import com.example.catans.viewmodel.MainViewModel
+import androidx.fragment.app.Fragment
+import com.example.catans.databinding.FragmentAirportBinding
+import com.example.catans.util.EnumAirport
+import com.example.catans.viewmodel.AirportViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-class FirstFragment : Fragment() {
+abstract class BaseFragment : Fragment() {
+    abstract fun initView()
 
-    private var _binding: FragmentFirstBinding? = null
+    lateinit var enumAirport: EnumAirport
+    private var _binding: FragmentAirportBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by lazy { ViewModelProvider(this)[MainViewModel()::class.java] }
+    private val viewModel by lazy { AirportViewModel() }
     private val scopeWork = object : CoroutineScope {
         override val coroutineContext: CoroutineContext
             get() = Job()
@@ -26,22 +28,19 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        context?.let {
-            viewModel.coil(it)
-            viewModel.getData(this)
-            viewModel.adapter(binding, it)
-            viewModel.recycler(binding, it)
-        }
-        binding.model = viewModel
+        initView()
+        _binding = FragmentAirportBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        // findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        context?.let {
+            viewModel.getData(this, enumAirport)
+            viewModel.adapter(it, binding)
+            viewModel.recycler(it, binding)
+        }
+        binding.model = viewModel
     }
 
     override fun onDestroyView() {

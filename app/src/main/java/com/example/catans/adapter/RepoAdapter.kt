@@ -5,24 +5,22 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import coil.load
 import com.example.catans.R
 import com.example.catans.databinding.ViewItemBinding
-import com.example.catans.model.Article
-import kotlinx.coroutines.CoroutineScope
+import com.example.catans.model.Airport
 
-class RepoAdapter(val scope: CoroutineScope) : PagingDataAdapter<Article, ItemViewHolder>(
+class RepoAdapter : PagingDataAdapter<Airport, ItemViewHolder>(
     COMPARATOR
 ) {
 
     private lateinit var itemViewBinding: ViewItemBinding
 
     companion object {
-        private val COMPARATOR = object : DiffUtil.ItemCallback<Article>() {
-            override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-                return oldItem.source == newItem.source
+        private val COMPARATOR = object : DiffUtil.ItemCallback<Airport>() {
+            override fun areItemsTheSame(oldItem: Airport, newItem: Airport): Boolean {
+                return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+            override fun areContentsTheSame(oldItem: Airport, newItem: Airport): Boolean {
                 return oldItem == newItem
             }
         }
@@ -34,11 +32,8 @@ class RepoAdapter(val scope: CoroutineScope) : PagingDataAdapter<Article, ItemVi
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item: Article? = getItem(position)
-        if (!item?.urlToImage.isNullOrEmpty() && !item?.description.isNullOrEmpty()) {
-            holder.bindItem(item)
-            itemViewBinding.ivImage.load(item?.urlToImage)
-        }
+        val item: Airport? = getItem(position)
+        holder.bindItem(item)
     }
 
 }

@@ -3,21 +3,22 @@ package com.example.catans.repo
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.rooans.network.NewsService
-import com.example.rooans.model.Article
+import com.example.catans.model.Airport
+import com.example.catans.network.ApiService
+import com.example.catans.util.EnumAirport
 import kotlinx.coroutines.flow.Flow
 
 object Repository {
 
     private const val PAGE_SIZE = 1
 
-    private val newsService = NewsService.create()
+    private val apiService = ApiService.createAirport()
 
-    fun getPagingData(): Flow<PagingData<Article>> {
+    fun getPagingData(enum : EnumAirport): Flow<PagingData<Airport>> {
         return Pager(
             config = PagingConfig(PAGE_SIZE),
             pagingSourceFactory = {
-                RepoPagingSource(newsService)
+                RepoPagingSource(apiService, enum)
             }
         ).flow
     }

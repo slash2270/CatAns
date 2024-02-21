@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_content"
+    app:startDestination="@id/InboundFragment">
+    <fragment
+        android:id="@+id/InboundFragment"
+        android:name="com.example.catans.fragment.AirportInboundFragment"
+        android:label="@string/Inbound_fragment_label"
+        tools:layout="@layout/fragment_airport">
+        <action
+            android:id="@+id/action_InboundFragment_to_DepartureFragment"
+            app:destination="@id/DepartureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/DepartureFragment"
+        android:name="com.example.catans.fragment.AirportDepartureFragment"
+        android:label="@string/Departure_fragment_label"
+        tools:layout="@layout/fragment_airport">
+
+        <action
+            android:id="@+id/action_DepartureFragment_to_InboundFragment"
+            app:destination="@id/InboundFragment" />
+    </fragment>
+</navigation>
