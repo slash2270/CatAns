@@ -27,7 +27,7 @@ class RepoAdapter : PagingDataAdapter<Airport, ItemViewHolder>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        itemViewBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.view_item, parent, false)
+        itemViewBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_view, parent, false)
         return ItemViewHolder(itemViewBinding)
     }
 

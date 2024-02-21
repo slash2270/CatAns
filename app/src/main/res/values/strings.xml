@@ -11,4 +11,6 @@
     <string name="departure_flight">起飛航班</string>
     <string name="inbound_flight">入境航班</string>
     <string name="retry">重試</string>
+    <string name="estimated_time">預計時間</string>
+    <string name="real_time">實際時間</string>
 </resources>

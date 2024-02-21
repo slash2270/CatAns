@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<data>
+    <import type="android.view.View"/>
+    <variable
+        name="item"
+        type="com.example.catans.model.Airport" />
+</data>
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="16dp"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:weightSum="10"
+        android:background="@color/purple_200"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="start"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="@string/estimated_time" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="end"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="@string/real_time" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="start"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="@{item.estimatedTime}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:layout_gravity="end"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="@{item.scheduleTime}" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="@{item.scheduleTime}" />
+
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_image"-->
+<!--            android:layout_width="75dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:contentDescription="@string/todo"-->
+<!--            android:layout_marginRight="10dp" />-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxLines="3"
+            android:ellipsize="end"
+            tools:text="@{item.actualTime}" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
+</layout>
