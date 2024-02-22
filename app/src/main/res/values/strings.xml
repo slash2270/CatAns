@@ -1,16 +1,24 @@
 <resources>
     <string name="app_name">CatAns</string>
     <string name="todo">todo</string>
-    <string name="action_settings">Settings</string>
-    <string name="Content_fragment_label">Content Fragment</string>
-    <string name="Second_fragment_label">Second Fragment</string>
-    <string name="Inbound_fragment_label">Inbound Fragment</string>
-    <string name="Departure_fragment_label">Departure Fragment</string>
+    <string name="action_settings">第二頁</string>
+    <string name="Content_fragment_label">首頁</string>
+    <string name="Second_fragment_label">第二頁</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="departure_flight">起飛航班</string>
     <string name="inbound_flight">入境航班</string>
     <string name="retry">重試</string>
     <string name="estimated_time">預計時間</string>
-    <string name="real_time">實際時間</string>
+    <string name="actual_time">實際時間</string>
+    <string name="flight_number">航機班號：  </string>
+    <string name="terminal_gate">航廈/登機門：  </string>
+    <string name="slash">/</string>
+    <string name="vertical_line">｜</string>
+    <string name="arrived">已到ARRIVED</string>
+    <string name="departed">出發DEPARTED</string>
+    <string name="on_time">準時ON TIME</string>
+    <string name="cancelled">取消CANCELLED</string>
+    <string name="schedule_change">時間更改SCHEDULE CHANGE</string>
+    <string name="none">無</string>>
 </resources>

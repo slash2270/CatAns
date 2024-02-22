@@ -36,8 +36,8 @@ data class Airport(
     @SerializedName(Utils.ActualTime) val actualTime: String?,
     @SerializedName(Utils.EstimatedTime) val estimatedTime: String?,
     @SerializedName(Utils.Remark) val remark: String?,
-    @SerializedName(Utils.Terminal) val terminal: String?,
-    @SerializedName(Utils.Gate) val gate: String?,
+    @SerializedName(Utils.Terminal) var terminal: String?,
+    @SerializedName(Utils.Gate) var gate: String?,
     @SerializedName(Utils.UpdateTime) val updateTime: String?,
 ) {
     fun toMap(): Map<String, String?> {

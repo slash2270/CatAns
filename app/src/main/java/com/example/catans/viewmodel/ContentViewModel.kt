@@ -1,9 +1,11 @@
 package com.example.catans.viewmodel
 
-import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
+import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import com.example.catans.R
 import com.example.catans.adapter.ViewPagerAdapter
 import com.example.catans.databinding.FragmentContentBinding
 import com.example.catans.fragment.AirportDepartureFragment
@@ -14,14 +16,16 @@ class ContentViewModel: ViewModel() {
 
     fun init(binding: FragmentContentBinding, fragment: Fragment) {
         val mFragmentList: MutableList<Fragment> = arrayListOf(AirportInboundFragment(), AirportDepartureFragment())
-        val mFragmentTitleList: MutableList<String> = arrayListOf(fragment.getString(com.example.catans.R.string.inbound_flight), fragment.getString(com.example.catans.R.string.departure_flight))
-        val mFragmentIconList: ArrayList<Drawable?> = arrayListOf(ResourcesCompat.getDrawable(fragment.resources, com.example.catans.R.drawable.ic_launcher_foreground, fragment.activity?.theme), ResourcesCompat.getDrawable(fragment.resources, com.example.catans.R.drawable.ic_launcher_foreground, fragment.activity?.theme))
+        val mFragmentViewList: ArrayList<View> = arrayListOf(
+            LayoutInflater.from(fragment.context).inflate(R.layout.item_tab_entry, null),
+            LayoutInflater.from(fragment.context).inflate(R.layout.item_tab_departure, null),
+        )
         binding.viewPager.adapter = ViewPagerAdapter(fragment, mFragmentList)
         binding.viewPager.currentItem = 0
         binding.viewPager.offscreenPageLimit = mFragmentList.size
+        binding.tabLayout.setSelectedTabIndicatorColor(ResourcesCompat.getColor(fragment.resources, R.color.grey_500, fragment.activity?.theme))
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = mFragmentTitleList[position]
-            tab.icon = mFragmentIconList[position]
+            tab.customView = mFragmentViewList[position]
         }.attach()
     }
 

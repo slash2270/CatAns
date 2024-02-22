@@ -1,10 +1,13 @@
 package com.example.catans.base
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import com.example.catans.R
 import com.example.catans.databinding.FragmentAirportBinding
 import com.example.catans.util.EnumAirport
 import com.example.catans.viewmodel.AirportViewModel
@@ -19,10 +22,6 @@ abstract class BaseFragment : Fragment() {
     private var _binding: FragmentAirportBinding? = null
     private val binding get() = _binding!!
     private val viewModel by lazy { AirportViewModel() }
-    private val scopeWork = object : CoroutineScope {
-        override val coroutineContext: CoroutineContext
-            get() = Job()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

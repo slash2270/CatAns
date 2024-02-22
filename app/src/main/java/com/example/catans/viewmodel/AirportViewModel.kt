@@ -23,7 +23,7 @@ class AirportViewModel: ViewModel() {
     private val listData: MutableLiveData<List<Airport?>?> = MutableLiveData<List<Airport?>?>()
 
     fun getData(fragment: Fragment, enum : EnumAirport) {
-        repoAdapter = RepoAdapter()
+        repoAdapter = RepoAdapter(fragment)
         viewModelScope.launch(Dispatchers.Main) {
             DataModel().getData(viewModelScope, repoAdapter, enum).let { list ->
                 if (list?.isNotEmpty() == true) {
