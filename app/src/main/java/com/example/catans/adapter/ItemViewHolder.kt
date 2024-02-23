@@ -1,16 +1,21 @@
 package com.example.catans.adapter
 
 import androidx.core.content.res.ResourcesCompat
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.catans.BR
 import com.example.catans.R
-import com.example.catans.databinding.ItemViewBinding
+import com.example.catans.databinding.ItemAirportBinding
+import com.example.catans.databinding.ItemDataBinding
 import com.example.catans.model.Airport
+import com.example.catans.model.Currency
+import com.example.catans.model.DataChild
 
-class ItemViewHolder(private val itemViewBinding: ItemViewBinding, private val fragment: Fragment) : RecyclerView.ViewHolder(itemViewBinding.root) {
+class ItemViewHolder(private val viewDataBinding: ViewDataBinding, private val fragment: Fragment) : RecyclerView.ViewHolder(viewDataBinding.root) {
 
-    fun bindItem(airport: Airport?) {
+    fun bindItemAirport(airport: Airport?) {
+        val itemViewBinding: ItemAirportBinding = viewDataBinding as ItemAirportBinding
         airport?.terminal = when {
             airport?.terminal?.isEmpty() == true -> fragment.getString(R.string.none)
             else -> if (airport?.terminal?.length == 1) "0${airport.terminal}" else airport?.terminal
@@ -35,6 +40,16 @@ class ItemViewHolder(private val itemViewBinding: ItemViewBinding, private val f
             itemViewBinding.setVariable(BR.item, airport)
             itemViewBinding.executePendingBindings()
         }
+    }
+
+    fun bindItemCurrency(currency: Currency?) {
+
+    }
+
+    fun bindItemData(data: DataChild?) {
+        val itemViewBinding: ItemDataBinding = viewDataBinding as ItemDataBinding
+        itemViewBinding.setVariable(BR.item, data)
+        itemViewBinding.executePendingBindings()
     }
 
 }

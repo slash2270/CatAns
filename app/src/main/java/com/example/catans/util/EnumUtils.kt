@@ -1,6 +1,7 @@
 package com.example.catans.util
 
-enum class EnumAirport {
+enum class EnumUtils {
     Departure,
     Inbound,
+    Currency,
 }

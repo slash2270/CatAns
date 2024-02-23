@@ -11,8 +11,20 @@
         android:label="@string/Content_fragment_label"
         tools:layout="@layout/fragment_content">
         <action
+            android:id="@+id/action_ContentFragment_to_CurrencyFragment"
+            app:destination="@id/currencyFragment" />
+        <action
             android:id="@+id/action_ContentFragment_to_SecondFragment"
             app:destination="@id/secondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/currencyFragment"
+        android:name="com.example.catans.fragment.CurrencyFragment"
+        android:label="@string/Currency_fragment_label"
+        tools:layout="@layout/fragment_currency">
+        <action
+            android:id="@+id/action_CurrencyFragment_to_Contentragment"
+            app:destination="@id/contentFragment" />
     </fragment>
     <fragment
         android:id="@+id/secondFragment"

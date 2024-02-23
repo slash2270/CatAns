@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.catans.MainActivity">
+    <item
+        android:id="@+id/item_btn_flight"
+        android:icon="@drawable/flight"
+        android:title="@string/flight" />
+
+    <item
+        android:id="@+id/item_btn_currency"
+        android:icon="@drawable/currency"
+        android:title="@string/currency" />
+</menu>

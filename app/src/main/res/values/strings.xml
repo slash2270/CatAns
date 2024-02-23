@@ -2,7 +2,8 @@
     <string name="app_name">CatAns</string>
     <string name="todo">todo</string>
     <string name="action_settings">第二頁</string>
-    <string name="Content_fragment_label">首頁</string>
+    <string name="Content_fragment_label">航班</string>
+    <string name="Currency_fragment_label">匯率</string>
     <string name="Second_fragment_label">第二頁</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -21,4 +22,6 @@
     <string name="cancelled">取消CANCELLED</string>
     <string name="schedule_change">時間更改SCHEDULE CHANGE</string>
     <string name="none">無</string>>
+    <string name="flight">航班</string>
+    <string name="currency">匯率</string>>
 </resources>

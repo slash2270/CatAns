@@ -8,7 +8,7 @@
         android:id="@+id/InboundFragment"
         android:name="com.example.catans.fragment.AirportInboundFragment"
         android:label="@string/inbound_flight"
-        tools:layout="@layout/fragment_airport">
+        tools:layout="@layout/fragment_base">
         <action
             android:id="@+id/action_InboundFragment_to_DepartureFragment"
             app:destination="@id/DepartureFragment" />
@@ -17,7 +17,7 @@
         android:id="@+id/DepartureFragment"
         android:name="com.example.catans.fragment.AirportDepartureFragment"
         android:label="@string/departure_flight"
-        tools:layout="@layout/fragment_airport">
+        tools:layout="@layout/fragment_base">
 
         <action
             android:id="@+id/action_DepartureFragment_to_InboundFragment"

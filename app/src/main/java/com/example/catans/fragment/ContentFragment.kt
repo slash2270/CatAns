@@ -5,15 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import com.example.catans.databinding.FragmentContentBinding
-import com.example.catans.viewmodel.ContentViewModel
+import com.example.catans.model.ContentModel
 
 class ContentFragment : Fragment() {
 
     private var _binding: FragmentContentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ContentViewModel by lazy { ViewModelProvider(this)[ContentViewModel()::class.java] }
+    private val viewModel: ContentModel by lazy { ContentModel() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

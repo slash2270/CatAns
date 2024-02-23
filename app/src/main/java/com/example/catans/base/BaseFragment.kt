@@ -1,43 +1,49 @@
 package com.example.catans.base
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import com.example.catans.R
-import com.example.catans.databinding.FragmentAirportBinding
-import com.example.catans.util.EnumAirport
-import com.example.catans.viewmodel.AirportViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
+import com.example.catans.databinding.FragmentBaseBinding
+import com.example.catans.util.EnumUtils
 
 abstract class BaseFragment : Fragment() {
     abstract fun initView()
 
-    lateinit var enumAirport: EnumAirport
-    private var _binding: FragmentAirportBinding? = null
+    lateinit var enumUtils: EnumUtils
+    private var _binding: FragmentBaseBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by lazy { AirportViewModel() }
+    private val viewModel by lazy { BaseViewModel() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         initView()
-        _binding = FragmentAirportBinding.inflate(inflater, container, false)
+        _binding = FragmentBaseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.let {
-            viewModel.getData(this, enumAirport)
-            viewModel.adapter(it, binding)
-            viewModel.recycler(it, binding)
+        when (enumUtils) {
+            EnumUtils.Departure, EnumUtils.Inbound -> {
+                viewModel.dataAirport(this, enumUtils)
+                context?.let {
+                    viewModel.fab(binding, this)
+                    viewModel.adapterAirport(it, binding)
+                    viewModel.recyclerAirport(it, binding)
+                }
+            }
+            EnumUtils.Currency -> {
+                viewModel.dataCurrency(this, enumUtils)
+                context?.let {
+                    viewModel.fab(binding, this)
+                    viewModel.adapterCurrency(it, binding)
+                    viewModel.recyclerCurrency(it, binding)
+                }
+            }
         }
         binding.model = viewModel
     }
