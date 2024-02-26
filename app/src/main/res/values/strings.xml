@@ -23,5 +23,7 @@
     <string name="schedule_change">時間更改SCHEDULE CHANGE</string>
     <string name="none">無</string>>
     <string name="flight">航班</string>
-    <string name="currency">匯率</string>>
+    <string name="currency">匯率</string>
+    <string name="no_data">無資料！</string>
+    <string name="error">網路或伺服器異常，請重試！</string>
 </resources>

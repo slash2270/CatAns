@@ -8,6 +8,7 @@ import com.example.catans.model.Currency
 import com.example.catans.network.ApiService
 import com.example.catans.util.EnumUtils
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Call
 
 object Repository {
 
@@ -22,13 +23,8 @@ object Repository {
         ).flow
     }
 
-    fun getPagingCurrency(enumUtils: EnumUtils): Flow<PagingData<Currency>> {
-        return Pager(
-            config = PagingConfig(PAGE_SIZE),
-            pagingSourceFactory = {
-                RepoPagingCurrency(ApiService.create(enumUtils))
-            }
-        ).flow
+    fun getCurrency(): Call<Currency?> {
+        return ApiService.create(EnumUtils.Currency).getCurrency()
     }
 
 }

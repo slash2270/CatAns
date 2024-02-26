@@ -1,5 +1,9 @@
 package com.example.catans.util
 
+import android.content.Context
+import android.util.DisplayMetrics
+import kotlin.math.roundToInt
+
 class Utils {
 
     companion object {
@@ -59,6 +63,17 @@ class Utils {
         const val Terminal = "Terminal"
         const val Gate = "Gate"
         const val UpdateTime = "UpdateTime"
+        const val TIME_REPEAT: Long = 3000
+
+        fun dpToPixel(context: Context, dp: Int): Int {
+            val displayMetrics: DisplayMetrics = context.resources.displayMetrics
+            return if (dp < 0) dp else (dp * displayMetrics.density).roundToInt()
+        }
+
+        fun pixelToDp(context: Context, pixel: Int): Int {
+            val displayMetrics: DisplayMetrics = context.resources.displayMetrics
+            return if (pixel < 0) pixel else (pixel * displayMetrics.density).roundToInt()
+        }
     }
 
 }

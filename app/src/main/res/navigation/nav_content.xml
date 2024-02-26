@@ -18,7 +18,6 @@
         android:name="com.example.catans.fragment.AirportDepartureFragment"
         android:label="@string/departure_flight"
         tools:layout="@layout/fragment_base">
-
         <action
             android:id="@+id/action_DepartureFragment_to_InboundFragment"
             app:destination="@id/InboundFragment" />

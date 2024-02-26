@@ -8,14 +8,19 @@ import com.example.catans.util.Utils.Companion.URI_AIRPORT_INBOUND
 import com.example.catans.util.Utils.Companion.URI_CURRENCY
 import com.example.catans.util.Utils.Companion.URL_AIRPORT
 import com.example.catans.util.Utils.Companion.URL_CURRENCY
+import okhttp3.OkHttpClient
+import org.json.JSONObject
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 interface ApiService {
     @GET(URI_CURRENCY)
-    suspend fun getCurrency(@Query("page") page: Int, @Query("per_page") perPage: Int): Currency?
+    fun getCurrency(): Call<Currency?>
 
     @GET(URI_AIRPORT_DEPARTURE)
     suspend fun getAirportDeparture(@Query("page") page: Int, @Query("per_page") perPage: Int): List<Airport>?
@@ -32,7 +37,17 @@ interface ApiService {
         }
 
         fun create(enumUtils: EnumUtils): ApiService {
+            val okHttpClient = OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
+                .connectTimeout( 10, TimeUnit.SECONDS)
+                .readTimeout(10,TimeUnit.SECONDS)
+                .writeTimeout(10,TimeUnit.SECONDS)
+//                .addInterceptor()
+//                .authenticator()
+//                .proxy()
+                .build()
             return Retrofit.Builder()
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(getUrl(enumUtils))
                 .build()

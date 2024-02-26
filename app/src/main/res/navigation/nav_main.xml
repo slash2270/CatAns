@@ -2,17 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
+    android:id="@+id/nav_main"
     app:startDestination="@id/contentFragment">
-
     <fragment
         android:id="@+id/contentFragment"
         android:name="com.example.catans.fragment.ContentFragment"
         android:label="@string/Content_fragment_label"
         tools:layout="@layout/fragment_content">
-        <action
-            android:id="@+id/action_ContentFragment_to_CurrencyFragment"
-            app:destination="@id/currencyFragment" />
         <action
             android:id="@+id/action_ContentFragment_to_SecondFragment"
             app:destination="@id/secondFragment" />
@@ -21,14 +17,11 @@
         android:id="@+id/currencyFragment"
         android:name="com.example.catans.fragment.CurrencyFragment"
         android:label="@string/Currency_fragment_label"
-        tools:layout="@layout/fragment_currency">
-        <action
-            android:id="@+id/action_CurrencyFragment_to_Contentragment"
-            app:destination="@id/contentFragment" />
+        tools:layout="@layout/fragment_base">
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
-        android:name="com.example.catans.SecondFragment"
+        android:name="com.example.catans.fragment.SecondFragment"
         android:label="@string/Second_fragment_label"
         tools:layout="@layout/fragment_second">
         <action
