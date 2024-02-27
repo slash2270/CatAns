@@ -42,14 +42,17 @@ class ItemViewHolder(private val viewDataBinding: ViewDataBinding, private val f
         }
     }
 
-    fun bindItemCurrency(currency: Currency?) {
-
-    }
+    var isClick = false
 
     fun bindItemData(data: DataChild?) {
-        val itemViewBinding: ItemDataBinding = viewDataBinding as ItemDataBinding
-        itemViewBinding.setVariable(BR.item, data)
-        itemViewBinding.executePendingBindings()
+        val binding: ItemDataBinding = viewDataBinding as ItemDataBinding
+//        binding.llRoot.setOnClickListener {
+//            // itemViewBinding.llRoot.background = ResourcesCompat.getDrawable(fragment.resources, if (isClick) R.color.grey_500 else R.color.purple_100, fragment.activity?.theme)
+//            binding.tvCurrencyCode.setTextColor(ResourcesCompat.getColor(fragment.resources, if (isClick) R.color.purple_200 else R.color.grey_500, fragment.activity?.theme))
+//            binding.tvCurrencyMoney.setTextColor(ResourcesCompat.getColor(fragment.resources, if (isClick) R.color.purple_200 else R.color.grey_500, fragment.activity?.theme))
+//        }
+        binding.setVariable(BR.item, data)
+        binding.executePendingBindings()
     }
 
 }

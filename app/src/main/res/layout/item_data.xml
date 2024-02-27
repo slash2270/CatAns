@@ -10,6 +10,10 @@
             name="item"
             type="com.example.catans.model.DataChild" />
 
+        <variable
+            name="adapter"
+            type="com.example.catans.adapter.RepoAdapterData" />
+
     </data>
 
 <androidx.cardview.widget.CardView
@@ -19,6 +23,7 @@
     app:cardCornerRadius="30dp">
 
     <LinearLayout
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -35,7 +40,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@{item.code}"
-            android:textColor="@drawable/airport_select_color"
+            android:textColor="@color/grey_500"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -52,7 +57,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@{item.money}"
-            android:textColor="@drawable/airport_select_color"
+            android:textColor="@color/grey_500"
             android:textSize="16sp"
             android:textStyle="bold" />
 

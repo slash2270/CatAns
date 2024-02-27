@@ -9,11 +9,9 @@ import com.example.catans.util.Utils.Companion.URI_CURRENCY
 import com.example.catans.util.Utils.Companion.URL_AIRPORT
 import com.example.catans.util.Utils.Companion.URL_CURRENCY
 import okhttp3.OkHttpClient
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit

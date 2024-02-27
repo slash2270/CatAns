@@ -3,11 +3,11 @@ package com.example.catans.repo
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.catans.model.Airport
+import com.example.catans.model.DataModel
 import com.example.catans.network.ApiService
 import com.example.catans.util.EnumUtils
 import java.lang.Exception
-
-class RepoPagingAirport(private val apiService: ApiService, private val enumUtils: EnumUtils) : PagingSource<Int, Airport>() {
+class RepoPagingAirport(private val apiService: ApiService, private val enumUtils: EnumUtils, private val airportCallBack: DataModel.AirportCallBack) : PagingSource<Int, Airport>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Airport> {
         return try {
@@ -18,6 +18,7 @@ class RepoPagingAirport(private val apiService: ApiService, private val enumUtil
                 EnumUtils.Inbound -> apiService.getAirportInbound(page, pageSize)
                 else -> apiService.getAirportDeparture(page, pageSize)
             }
+            airportCallBack.getData(repoResponse)
             val prevKey = if (page > 1) page - 1 else null
             val nextKey = if (repoResponse?.isNotEmpty() == true) page + 1 else null
             LoadResult.Page(repoResponse!!, prevKey, nextKey)

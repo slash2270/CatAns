@@ -7,7 +7,9 @@ import kotlin.math.roundToInt
 class Utils {
 
     companion object {
-        const val URI_CURRENCY = "latest?apikey=fca_live_u8YybRyp0D3N7bhJg9oynaaTJitTuzMlW9qhaphB"
+        const val URI_BASE_CURRENCY = "&base_currency=USD"
+        const val URI_API_KEY = "latest?apikey=fca_live_u8YybRyp0D3N7bhJg9oynaaTJitTuzMlW9qhaphB"
+        const val URI_CURRENCY = "latest?apikey=fca_live_u8YybRyp0D3N7bhJg9oynaaTJitTuzMlW9qhaphB&base_currency=USD"
         const val URL_CURRENCY = "https://api.freecurrencyapi.com/v1/"
         const val data = "data"
         const val AUD = "AUD"
@@ -63,7 +65,7 @@ class Utils {
         const val Terminal = "Terminal"
         const val Gate = "Gate"
         const val UpdateTime = "UpdateTime"
-        const val TIME_REPEAT: Long = 3000
+        const val TIME_REPEAT: Long = 10000
 
         fun dpToPixel(context: Context, dp: Int): Int {
             val displayMetrics: DisplayMetrics = context.resources.displayMetrics
@@ -74,6 +76,7 @@ class Utils {
             val displayMetrics: DisplayMetrics = context.resources.displayMetrics
             return if (pixel < 0) pixel else (pixel * displayMetrics.density).roundToInt()
         }
+
     }
 
 }

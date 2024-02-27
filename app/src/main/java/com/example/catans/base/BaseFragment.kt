@@ -33,12 +33,16 @@ abstract class BaseFragment : Fragment() {
             EnumUtils.Departure, EnumUtils.Inbound -> {
                 viewModel.dataAirport(this, enumUtils, binding)
                 context?.let {
-                    viewModel.adapterAirport(it, binding)
+                    viewModel.adapterAirport(this, binding)
                     viewModel.recyclerAirport(it, binding)
                 }
             }
             EnumUtils.Currency -> {
                 viewModel.dataCurrency(this, binding)
+                context?.let {
+                    viewModel.adapterData(this, binding)
+                    viewModel.recyclerCurrency(binding, this)
+                }
             }
         }
         binding.model = viewModel

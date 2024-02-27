@@ -5,6 +5,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.catans.model.Airport
 import com.example.catans.model.Currency
+import com.example.catans.model.DataChild
+import com.example.catans.model.DataModel
 import com.example.catans.network.ApiService
 import com.example.catans.util.EnumUtils
 import kotlinx.coroutines.flow.Flow
@@ -14,11 +16,20 @@ object Repository {
 
     private const val PAGE_SIZE = 1
 
-    fun getPagingAirport(enumUtils: EnumUtils): Flow<PagingData<Airport>> {
+    fun getPagingAirport(enumUtils: EnumUtils, airportCallBack: DataModel.AirportCallBack): Flow<PagingData<Airport>> {
         return Pager(
             config = PagingConfig(PAGE_SIZE),
             pagingSourceFactory = {
-                RepoPagingAirport(ApiService.create(enumUtils), enumUtils)
+                RepoPagingAirport(ApiService.create(enumUtils), enumUtils, airportCallBack)
+            }
+        ).flow
+    }
+
+    fun getPagingCurrency(list: ArrayList<DataChild>): Flow<PagingData<DataChild>> {
+        return Pager(
+            config = PagingConfig(PAGE_SIZE),
+            pagingSourceFactory = {
+                RepoPagingData(list)
             }
         ).flow
     }
