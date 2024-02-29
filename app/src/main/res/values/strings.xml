@@ -26,4 +26,26 @@
     <string name="currency">匯率</string>
     <string name="no_data">無資料！</string>
     <string name="error">網路或伺服器異常，請重試！</string>
+    <string-array name="calculator">
+        <item>C</item>
+        <item>()</item>
+        <item>%</item>
+        <item>/</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>X</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>—</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>+</item>
+        <item>+/-</item>
+        <item>0</item>
+        <item>.</item>
+        <item>=</item>
+    </string-array>
 </resources>

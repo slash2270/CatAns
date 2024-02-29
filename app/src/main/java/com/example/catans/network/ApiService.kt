@@ -3,11 +3,11 @@ package com.example.catans.network
 import com.example.catans.model.Airport
 import com.example.catans.model.Currency
 import com.example.catans.util.EnumUtils
+import com.example.catans.util.Utils
 import com.example.catans.util.Utils.Companion.URI_AIRPORT_DEPARTURE
 import com.example.catans.util.Utils.Companion.URI_AIRPORT_INBOUND
 import com.example.catans.util.Utils.Companion.URI_CURRENCY
 import com.example.catans.util.Utils.Companion.URL_AIRPORT
-import com.example.catans.util.Utils.Companion.URL_CURRENCY
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -17,6 +17,7 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface ApiService {
+
     @GET(URI_CURRENCY)
     fun getCurrency(): Call<Currency?>
 
@@ -27,10 +28,11 @@ interface ApiService {
     suspend fun getAirportInbound(@Query("page") page: Int, @Query("per_page") perPage: Int): List<Airport>?
 
     companion object {
+
         private fun getUrl(enumUtils: EnumUtils): String {
             return when(enumUtils) {
                 EnumUtils.Inbound, EnumUtils.Departure-> URL_AIRPORT
-                EnumUtils.Currency -> URL_CURRENCY
+                EnumUtils.Currency -> Utils.URL_CURRENCY
             }
         }
 

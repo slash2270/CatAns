@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.catans.BR
 import com.example.catans.R
 import com.example.catans.databinding.ItemAirportBinding
-import com.example.catans.databinding.ItemDataBinding
 import com.example.catans.model.Airport
-import com.example.catans.model.Currency
-import com.example.catans.model.DataChild
 
 class ItemViewHolder(private val viewDataBinding: ViewDataBinding, private val fragment: Fragment) : RecyclerView.ViewHolder(viewDataBinding.root) {
 
@@ -42,17 +39,10 @@ class ItemViewHolder(private val viewDataBinding: ViewDataBinding, private val f
         }
     }
 
-    var isClick = false
-
-    fun bindItemData(data: DataChild?) {
-        val binding: ItemDataBinding = viewDataBinding as ItemDataBinding
-//        binding.llRoot.setOnClickListener {
-//            // itemViewBinding.llRoot.background = ResourcesCompat.getDrawable(fragment.resources, if (isClick) R.color.grey_500 else R.color.purple_100, fragment.activity?.theme)
-//            binding.tvCurrencyCode.setTextColor(ResourcesCompat.getColor(fragment.resources, if (isClick) R.color.purple_200 else R.color.grey_500, fragment.activity?.theme))
-//            binding.tvCurrencyMoney.setTextColor(ResourcesCompat.getColor(fragment.resources, if (isClick) R.color.purple_200 else R.color.grey_500, fragment.activity?.theme))
-//        }
-        binding.setVariable(BR.item, data)
-        binding.executePendingBindings()
-    }
+//    fun bindItemData(data: DataChild?) {
+//        val binding: ItemDataBinding = viewDataBinding as ItemDataBinding
+//        binding.setVariable(BR.item, data)
+//        binding.executePendingBindings()
+//    }
 
 }

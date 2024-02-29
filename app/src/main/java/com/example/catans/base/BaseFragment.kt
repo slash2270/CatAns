@@ -1,8 +1,6 @@
 package com.example.catans.base
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,16 +29,15 @@ abstract class BaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         when (enumUtils) {
             EnumUtils.Departure, EnumUtils.Inbound -> {
-                viewModel.dataAirport(this, enumUtils, binding)
-                context?.let {
-                    viewModel.adapterAirport(this, binding)
-                    viewModel.recyclerAirport(it, binding)
-                }
+                viewModel.dataAirport(this, enumUtils)
+                viewModel.adapterAirport(this, binding)
+                context?.let { viewModel.recyclerAirport(it, binding) }
             }
             EnumUtils.Currency -> {
+                viewModel.bottomSheet(this)
+                viewModel.adapterData(this, binding)
                 viewModel.dataCurrency(this, binding)
-                context?.let {
-                    viewModel.adapterData(this, binding)
+                viewModel.listData.observe(viewLifecycleOwner) {
                     viewModel.recyclerCurrency(binding, this)
                 }
             }

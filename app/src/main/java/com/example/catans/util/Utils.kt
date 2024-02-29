@@ -7,10 +7,10 @@ import kotlin.math.roundToInt
 class Utils {
 
     companion object {
-        const val URI_BASE_CURRENCY = "&base_currency=USD"
+        const val URI_BASE_CURRENCY = "&base_currency="
         const val URI_API_KEY = "latest?apikey=fca_live_u8YybRyp0D3N7bhJg9oynaaTJitTuzMlW9qhaphB"
         const val URI_CURRENCY = "latest?apikey=fca_live_u8YybRyp0D3N7bhJg9oynaaTJitTuzMlW9qhaphB&base_currency=USD"
-        const val URL_CURRENCY = "https://api.freecurrencyapi.com/v1/"
+        var URL_CURRENCY = "https://api.freecurrencyapi.com/v1/"
         const val data = "data"
         const val AUD = "AUD"
         const val BGN = "BGN"
