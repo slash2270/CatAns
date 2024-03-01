@@ -34,7 +34,6 @@ abstract class BaseFragment : Fragment() {
                 context?.let { viewModel.recyclerAirport(it, binding) }
             }
             EnumUtils.Currency -> {
-                viewModel.bottomSheet(this)
                 viewModel.adapterData(this, binding)
                 viewModel.dataCurrency(this, binding)
                 viewModel.listData.observe(viewLifecycleOwner) {

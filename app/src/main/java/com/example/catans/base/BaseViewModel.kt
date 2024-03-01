@@ -7,17 +7,17 @@ import android.os.Looper
 import android.support.annotation.NonNull
 import android.util.Log
 import android.view.View
+import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.cachedIn
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.example.catans.R
 import com.example.catans.adapter.FooterAdapter
 import com.example.catans.adapter.RepoAdapterAirport
+import com.example.catans.adapter.RepoAdapterCalculator
 import com.example.catans.adapter.RepoAdapterData
 import com.example.catans.databinding.FragmentBaseBinding
 import com.example.catans.model.Airport
@@ -38,6 +38,7 @@ open class BaseViewModel: ViewModel() {
     private lateinit var repoAdapterData: RepoAdapterData
     private val listAirport: MutableLiveData<List<Airport>?> = MutableLiveData<List<Airport>?>()
     var listData: MutableLiveData<ArrayList<DataChild>> = MutableLiveData<ArrayList<DataChild>>()
+    private val listGrid: MutableLiveData<Array<String>> = MutableLiveData<Array<String>>()
     private var dialog: BottomSheetDialog? = null
     private lateinit var behavior: BottomSheetBehavior<View>
     private var handler: Handler = Handler(Looper.getMainLooper())
@@ -113,6 +114,7 @@ open class BaseViewModel: ViewModel() {
 
     fun adapterData(fragment: Fragment, binding: FragmentBaseBinding) {
         repoAdapterData = RepoAdapterData(fragment, listData) {
+            bottomSheet(fragment)
             dialog?.let { bottomSheetClick(fragment, it, behavior) }
         }
         repoAdapterData.withLoadStateFooter(FooterAdapter {
@@ -146,17 +148,27 @@ open class BaseViewModel: ViewModel() {
         }
     }
 
-    fun bottomSheet(fragment: Fragment) {
+    private fun bottomSheet(fragment: Fragment) {
         val view = View.inflate(fragment.context, R.layout.dialog_bottom_sheet, null)
         dialog = fragment.context?.let { BottomSheetDialog(it) }
         dialog?.setContentView(view)
         behavior = BottomSheetBehavior.from(view.parent as View)
+        val list = fragment.resources.getStringArray(R.array.calculator)
+        val gridView = view.findViewById<GridView>(R.id.gridView)
+        listGrid.value = list
+        listGrid.observe(fragment) {array ->
+            if (array.isNotEmpty()) {
+                val repoAdapterCalculator = RepoAdapterCalculator(fragment, array)
+                repoAdapterCalculator.notifyDataSetChanged()
+                gridView.adapter = repoAdapterCalculator
+            }
+        }
     }
 
     private fun bottomSheetClick(fragment: Fragment, dialog: BottomSheetDialog, behavior: BottomSheetBehavior<View>) {
-        // behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+//        behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
         fragment.context?.let {
-            behavior.peekHeight = Utils.dpToPixel(it, 600)
+            behavior.peekHeight = Utils.dpToPixel(it, 1600)
         }
         dialog.show()
 //        behavior.state = when(behavior.state) {

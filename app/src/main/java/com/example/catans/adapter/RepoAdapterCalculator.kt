@@ -1,67 +1,75 @@
-//package com.example.catans.adapter
-//
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.BaseAdapter
-//import androidx.fragment.app.Fragment
-//import com.example.catans.R
-//import com.example.catans.databinding.ItemAirportBinding
-//
-//class RepoAdapterCalculator(private val fragment: Fragment, private val list: List<String>) : BaseAdapter() {
-//
-//    private lateinit var itemViewBinding:
-//
-//    override fun  getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-//        var convertView: View? = convertView
-//        val viewHolder: ViewHolder
-//        // 1.创建视图
-//        if (convertView == null) {
-//            val inflater: LayoutInflater = LayoutInflater.from(fragment.context)
-//            convertView = inflater.inflate(R.layout.item_grid, null)
-//            viewHolder = ViewHolder()
-//            viewHolder.image = convertView.findViewById(R.id.iv_image)
-//            viewHolder.name = convertView.findViewById(R.id.tv_name)
-//            viewHolder.price = convertView.findViewById(R.id.tv_price)
-//            viewHolder.cartButton = convertView.findViewById(R.id.cartButton)
-//            convertView.setTag(viewHolder)
-//        } else {
-//            viewHolder = convertView.getTag()
-//        }
-//
-//        // 2.给视图进行数据赋值
-//        val image: ImageView? = viewHolder.image
-//        val name: TextView? = viewHolder.name
-//        val price: TextView? = viewHolder.price
-//        val goods: Goods = data!![position]
-//        image.setImageResource(goods.getImage())
-//        name.setText(goods.getName())
-//        val priceString = "￥" + goods.getPrice() + "/箱"
-//        price.setText(priceString)
-//
-//        // 3.给按钮绑定点击事件
-//        viewHolder.cartButton.setOnClickListener(object : OnClickListener() {
-//            fun onClick(v: View?) {
-//                // 1.获取点击的商品的名称
-//                val message: String = goods.getName() + "已加入购物车！"
-//                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//
-//        // 返回View
-//        return convertView!!
-//    }
-//
-//    override fun getCount(): Int = list.size
-//
-//    override fun getItem(position: Int): Any = list[position]
-//
-//    override fun getItemId(position: Int): Long = position.toLong()
-//
-//    internal inner class ViewHolder {
-//        var image: ImageView? = null
-//        var name: TextView? = null
-//        val price: TextView? = null
-//        val cartButton: ImageButton? = null
-//    }
-//}
+package com.example.catans.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.res.ResourcesCompat
+import androidx.databinding.ObservableField
+import androidx.fragment.app.Fragment
+import com.example.catans.R
+
+class RepoAdapterCalculator(private val fragment: Fragment, private val list: Array<String>) : BaseAdapter() {
+
+    val name: ObservableField<String> = ObservableField("")
+    private var view: View? = null
+    private var viewHolder: ViewHolder? = null
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        if (convertView == null) {
+            view = LayoutInflater.from(fragment.context).inflate(R.layout.item_grid, null)
+            viewHolder = ViewHolder()
+            viewHolder?.card = view?.findViewById(R.id.cardGrid)
+            viewHolder?.text = view?.findViewById(R.id.tvGrid)
+            view?.tag = viewHolder
+        } else {
+            viewHolder = view?.tag as ViewHolder
+        }
+        name.set(list[position])
+        val bgColor = when(position) {
+            0, 1, 2, 3, 7, 11, 15 -> R.color.grey_300
+            19 -> R.color.deep_green
+            else -> R.color.white
+        }
+        viewHolder?.text?.text = list[position]
+        viewHolder?.text?.background = ResourcesCompat.getDrawable(fragment.resources, bgColor, fragment.activity?.theme)
+        viewHolder?.card?.setOnClickListener {
+            when(position) {
+                0 -> {}
+                1 -> {}
+                2 -> {}
+                3 -> {}
+                4 -> {}
+                5 -> {}
+                6 -> {}
+                7 -> {}
+                8 -> {}
+                9 -> {}
+                10 -> {}
+                11 -> {}
+                12 -> {}
+                13 -> {}
+                14 -> {}
+                15 -> {}
+                16 -> {}
+                17 -> {}
+                18 -> {}
+                19 -> {}
+            }
+        }
+        return view!!
+    }
+
+    override fun getCount(): Int = list.size
+
+    override fun getItem(position: Int): Any = list[position]
+
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    internal inner class ViewHolder {
+        var card: CardView? = null
+        var text: TextView? = null
+    }
+}
