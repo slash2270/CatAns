@@ -39,10 +39,4 @@ class ItemViewHolder(private val viewDataBinding: ViewDataBinding, private val f
         }
     }
 
-//    fun bindItemData(data: DataChild?) {
-//        val binding: ItemDataBinding = viewDataBinding as ItemDataBinding
-//        binding.setVariable(BR.item, data)
-//        binding.executePendingBindings()
-//    }
-
 }

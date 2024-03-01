@@ -2,6 +2,9 @@ package com.example.catans.util
 
 import android.content.Context
 import android.util.DisplayMetrics
+import android.util.Log
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import kotlin.math.roundToInt
 
 class Utils {
@@ -75,6 +78,64 @@ class Utils {
         fun pixelToDp(context: Context, pixel: Int): Int {
             val displayMetrics: DisplayMetrics = context.resources.displayMetrics
             return if (pixel < 0) pixel else (pixel * displayMetrics.density).roundToInt()
+        }
+
+        fun closeKeyboard(context: Context, view: View) {
+            val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+
+        fun regSymbol(text: String, symbol: String): Boolean {
+            val match1 = text.indexOf(symbol) == text.length - 1
+            val regex = Regex("[(-)%*/)(+.]")
+            val match2 = regex.containsMatchIn(text)
+            return  match1 || match2
+        }
+
+        private fun regOperator (text: String): Boolean {
+            val regex = Regex("[+*/-]")
+            return regex.containsMatchIn(text)
+        }
+
+        fun regCalculatorPrevious(text: String): Boolean {
+            val regex = Regex("[+*/-]")
+            return regex.containsMatchIn(text[text.length - 1].toString())
+        }
+
+        fun regNumberPreviousBackBracket(text: String): Boolean {
+            val regex = Regex("[0-9)]")
+            return regex.containsMatchIn(text[text.length - 1].toString())
+        }
+
+        fun regNumberPrevious(text: String): Boolean {
+            val regex = Regex("[0-9]")
+            return regex.containsMatchIn(text[text.length - 1].toString())
+        }
+
+        fun regNumberNext(text: String, index: Int): Boolean {
+            val regex = Regex("[0-9]")
+            return regex.containsMatchIn(text[index].toString())
+        }
+
+        fun regOperatorBetweenBracket(text: String): List<String> {
+            val list = arrayListOf<String>()
+            for (i in text.indices) {
+                if (text.length >= 5 && regOperator(text[i].toString()) && text[i - 1].toString() == ")" && text[i + 1].toString() == "(") {
+                    var getString = ""
+                    val openIndex = text.indexOf("(")
+                    val backIndex = text.indexOf(")")
+                    if (backIndex > i) {
+                        getString = text.substring(i, backIndex)
+                        list.add(getString)
+                    }
+                    if (openIndex < i) {
+                        getString = text.substring(openIndex, i)
+                        list.add(getString)
+                    }
+                }
+            }
+            Log.d("regOperatorBetween", list.toString())
+            return list
         }
 
     }
