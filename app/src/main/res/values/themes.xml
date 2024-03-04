@@ -21,5 +21,8 @@
 
     <style name="Theme.CatAns.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.CatAns.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.CatAns.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
+        </style>
 </resources>

@@ -50,6 +50,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    // math
+    implementation 'org.mariuszgromada.math:MathParser.org-mXparser:5.2.1'
+
     // multidex
     implementation ("androidx.multidex:multidex:2.0.1")
 

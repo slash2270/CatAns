@@ -1,10 +1,12 @@
 package com.example.catans.util
 
+import android.app.Activity
 import android.content.Context
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import org.mariuszgromada.math.mxparser.Expression
 import kotlin.math.roundToInt
 
 class Utils {
@@ -80,62 +82,110 @@ class Utils {
             return if (pixel < 0) pixel else (pixel * displayMetrics.density).roundToInt()
         }
 
-        fun closeKeyboard(context: Context, view: View) {
-            val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+//        fun closeKeyboard(activity: Activity) {
+//            val view = activity.window?.peekDecorView();
+//            if (view != null) {
+//                closeKeyboard(activity, view)
+//            }
+//        }
+//
+//        fun closeKeyboard(view: View?) {
+//            if (view != null) {
+//                closeKeyboard(view.activity, view)
+//            }
+//        }
+
+        fun closeKeyboard(activity: Activity?, view: View) {
+            if (activity != null) {
+                val inputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                if (inputMethodManager != null && view.windowToken != null) {
+                    inputMethodManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+                }
+            }
         }
 
         fun regSymbol(text: String, symbol: String): Boolean {
             val match1 = text.indexOf(symbol) == text.length - 1
-            val regex = Regex("[(-)%*/)(+.]")
+            val regex = Regex("[%x/)(+.-]")
             val match2 = regex.containsMatchIn(text)
             return  match1 || match2
         }
 
-        private fun regOperator (text: String): Boolean {
-            val regex = Regex("[+*/-]")
-            return regex.containsMatchIn(text)
-        }
+        private fun regOperator(text: String): Boolean = Regex("[+x/-]").containsMatchIn(text)
 
-        fun regCalculatorPrevious(text: String): Boolean {
-            val regex = Regex("[+*/-]")
-            return regex.containsMatchIn(text[text.length - 1].toString())
-        }
+        fun regCalculatorPrevious(text: String): Boolean = Regex("[+x/-]").containsMatchIn(text[text.length - 1].toString())
+
+        fun regCalculatorNext(text: String, index: Int): Boolean = Regex("[+x/-]").containsMatchIn(text[index].toString())
 
         fun regNumberPreviousBackBracket(text: String): Boolean {
-            val regex = Regex("[0-9)]")
-            return regex.containsMatchIn(text[text.length - 1].toString())
+            if (text.isNotEmpty()) {
+                return Regex("[0-9)]").containsMatchIn(text[text.length - 1].toString())
+            }
+            return false
         }
 
-        fun regNumberPrevious(text: String): Boolean {
-            val regex = Regex("[0-9]")
-            return regex.containsMatchIn(text[text.length - 1].toString())
-        }
+        fun regNumberPrevious(text: String): Boolean = Regex("[0-9]").containsMatchIn(text[text.length - 1].toString())
 
-        fun regNumberNext(text: String, index: Int): Boolean {
-            val regex = Regex("[0-9]")
-            return regex.containsMatchIn(text[index].toString())
-        }
+        fun regNumberNext(text: String, index: Int): Boolean = Regex("[0-9]").containsMatchIn(text[index].toString())
 
-        fun regOperatorBetweenBracket(text: String): List<String> {
-            val list = arrayListOf<String>()
+        fun regBracketOpenNext(text: String, index: Int): Boolean = Regex("[(]").containsMatchIn(text[index].toString())
+
+        fun regBracketBackNext(text: String, index: Int): Boolean = Regex("[)]").containsMatchIn(text[index].toString())
+
+        private fun regOperatorBetweenBracket(text: String): List<Int> {
+            val list = arrayListOf<Int>()
             for (i in text.indices) {
-                if (text.length >= 5 && regOperator(text[i].toString()) && text[i - 1].toString() == ")" && text[i + 1].toString() == "(") {
-                    var getString = ""
-                    val openIndex = text.indexOf("(")
-                    val backIndex = text.indexOf(")")
-                    if (backIndex > i) {
-                        getString = text.substring(i, backIndex)
-                        list.add(getString)
-                    }
-                    if (openIndex < i) {
-                        getString = text.substring(openIndex, i)
-                        list.add(getString)
-                    }
+                if (text.length >= 5 && regOperator(text[i].toString()) && text[i - 1].toString() == ")") {
+                    list.add(i)
                 }
             }
             Log.d("regOperatorBetween", list.toString())
             return list
+        }
+
+        fun regOperatorBracket(text: String): Any {
+            var subText: String
+            val listBracket = arrayListOf<String>()
+            val listOperator = regOperatorBetweenBracket(text)
+            for(i in listOperator.indices) {
+                subText = if (i == 0) text.substring(0, listOperator[i]) else text.substring(listOperator[i - 1] + 1, listOperator[i])
+                subText = subText.replace("x", "*")
+                var e: Expression
+                var number: Double
+                listBracket.add(
+                    if (subText.contains("(")) {
+                    e = Expression(subText.replace("(", "").replace(")", ""))
+                    number = e.calculate()
+                    number.toString()
+                } else {
+                    subText
+                })
+                if (i == listOperator.size - 1) {
+                    subText = text.substring(listOperator[i] + 1, text.length).replace("x", "*")
+                    listBracket.add(
+                        if (subText.contains("(")) {
+                            e = Expression(subText.replace("(", "").replace(")", ""))
+                            number = e.calculate()
+                            number.toString()
+                        } else {
+                            subText
+                        })
+                }
+            }
+            Log.d("listBracket", listBracket.toString())
+            var getText = ""
+            for (j in listBracket.indices) {
+                getText += listBracket[j]
+                Log.d("getText bracket", getText)
+                if (j <= listOperator.size - 1) {
+                    getText += text[listOperator[j]]
+                    getText = getText.replace("x", "*")
+                    Log.d("getText operator", getText)
+                }
+            }
+            val number = Expression(getText).calculate()
+            Log.d("regOperatorBracket", number.toString())
+            return if (number % 1 == 0.0) number.toInt() else number
         }
 
     }
