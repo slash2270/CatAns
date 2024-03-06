@@ -6,7 +6,6 @@ import android.os.Looper
 import android.text.InputType
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.GridView
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
@@ -35,7 +34,6 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.mariuszgromada.math.mxparser.Expression
 
 open class BaseViewModel: ViewModel() {
 
@@ -173,13 +171,13 @@ open class BaseViewModel: ViewModel() {
                     val listOpenBracket = text.split("(")
                     val listBackBracket = text.split(")")
                     if (index == 19) {
-                        Log.d("ListBracket Open:", listOpenBracket.size.toString())
-                        Log.d("ListBracket Back:", listBackBracket.size.toString())
+                        Log.d("ListBracket Open:", listOpenBracket.toString())
+                        Log.d("ListBracket Back:", listBackBracket.toString())
                         text = if (text.isEmpty()) {
                             fragment.getString(R.string.reg_empty)
                         } else {
                             when {
-                                listOpenBracket.isEmpty() -> Expression(text.replace("x", "*")).calculate().toString()
+                                listOpenBracket.isNotEmpty() && listOpenBracket.size == 1 -> Utils.expressText(text.replace("x", "*"))
                                 listOpenBracket.size != listBackBracket.size -> fragment.getString(R.string.reg_bracket)
                                 listOpenBracket.size > 1 && listOpenBracket.size == listBackBracket.size -> Utils.regOperatorBracket(text).toString()
                                 else -> fragment.getString(R.string.reg_type)
@@ -214,7 +212,7 @@ open class BaseViewModel: ViewModel() {
                         14 -> "3"
                         15 -> if (!Utils.regNumberPreviousBackBracket(text)) "" else "+"
                         16 -> if (!Utils.regNumberPreviousBackBracket(text)) "" else "-"
-                        17 -> "0"
+                        17 -> if (!Utils.regNumberPreviousZero(text)) "" else "0"
                         18 -> if (!Utils.regNumberPreviousBackBracket(text)) "" else "."
                         else -> ""
                     }

@@ -117,6 +117,13 @@ class Utils {
 
         fun regCalculatorNext(text: String, index: Int): Boolean = Regex("[+x/-]").containsMatchIn(text[index].toString())
 
+        fun regNumberPreviousZero(text: String): Boolean {
+            if (text.isNotEmpty()) {
+                return Regex("[0)]").containsMatchIn(text[text.length - 1].toString())
+            }
+            return false
+        }
+
         fun regNumberPreviousBackBracket(text: String): Boolean {
             if (text.isNotEmpty()) {
                 return Regex("[0-9)]").containsMatchIn(text[text.length - 1].toString())
@@ -150,13 +157,9 @@ class Utils {
             for(i in listOperator.indices) {
                 subText = if (i == 0) text.substring(0, listOperator[i]) else text.substring(listOperator[i - 1] + 1, listOperator[i])
                 subText = subText.replace("x", "*")
-                var e: Expression
-                var number: Double
                 listBracket.add(
                     if (subText.contains("(")) {
-                    e = Expression(subText.replace("(", "").replace(")", ""))
-                    number = e.calculate()
-                    number.toString()
+                    expressText(subText.replace("(", "").replace(")", ""))
                 } else {
                     subText
                 })
@@ -164,9 +167,7 @@ class Utils {
                     subText = text.substring(listOperator[i] + 1, text.length).replace("x", "*")
                     listBracket.add(
                         if (subText.contains("(")) {
-                            e = Expression(subText.replace("(", "").replace(")", ""))
-                            number = e.calculate()
-                            number.toString()
+                            expressText(subText.replace("(", "").replace(")", ""))
                         } else {
                             subText
                         })
@@ -186,6 +187,11 @@ class Utils {
             val number = Expression(getText).calculate()
             Log.d("regOperatorBracket", number.toString())
             return if (number % 1 == 0.0) number.toInt() else number
+        }
+
+        fun expressText(text: String): String {
+            val number = Expression(text).calculate()
+            return if (number % 1.0 == 0.0)  number.toInt().toString() else number.toString()
         }
 
     }
