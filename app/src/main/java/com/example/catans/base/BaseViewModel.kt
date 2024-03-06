@@ -37,11 +37,11 @@ import kotlinx.coroutines.launch
 
 open class BaseViewModel: ViewModel() {
 
-    private lateinit var repoAdapterAirport: RepoAdapterAirport
-    private lateinit var repoAdapterData: RepoAdapterData
     private val listAirport: MutableLiveData<List<Airport>?> = MutableLiveData<List<Airport>?>()
     var listData: MutableLiveData<ArrayList<DataChild>> = MutableLiveData<ArrayList<DataChild>>()
     private val listGrid: MutableLiveData<Array<String>> = MutableLiveData<Array<String>>()
+    private lateinit var repoAdapterAirport: RepoAdapterAirport
+    private lateinit var repoAdapterData: RepoAdapterData
     private var dialog: BottomSheetDialog? = null
     private lateinit var behavior: BottomSheetBehavior<View>
     private var handler: Handler = Handler(Looper.getMainLooper())
@@ -86,9 +86,7 @@ open class BaseViewModel: ViewModel() {
     }
 
     fun recyclerCurrency(binding: FragmentBaseBinding, fragment: Fragment) {
-        fragment.context?.let {
-            binding.recyclerView.setPadding(Utils.dpToPixel(it,12), Utils.dpToPixel(it,16), Utils.dpToPixel(it,12), Utils.dpToPixel(it,16))
-        }
+        fragment.context?.let { binding.recyclerView.setPadding(Utils.dpToPixel(it,12), Utils.dpToPixel(it,12), Utils.dpToPixel(it,12), Utils.dpToPixel(it,12)) }
         binding.recyclerView.layoutManager = LinearLayoutManager(fragment.context)
         binding.recyclerView.adapter = repoAdapterData
     }
@@ -174,15 +172,15 @@ open class BaseViewModel: ViewModel() {
                         Log.d("ListBracket Open:", listOpenBracket.toString())
                         Log.d("ListBracket Back:", listBackBracket.toString())
                         text = if (text.isEmpty()) {
-                            fragment.getString(R.string.reg_empty)
-                        } else {
-                            when {
-                                listOpenBracket.isNotEmpty() && listOpenBracket.size == 1 -> Utils.expressText(text.replace("x", "*"))
-                                listOpenBracket.size != listBackBracket.size -> fragment.getString(R.string.reg_bracket)
-                                listOpenBracket.size > 1 && listOpenBracket.size == listBackBracket.size -> Utils.regOperatorBracket(text).toString()
-                                else -> fragment.getString(R.string.reg_type)
-                            }
-                        }
+                                   fragment.getString(R.string.reg_empty)
+                               } else {
+                                   when {
+                                       listOpenBracket.isNotEmpty() && listOpenBracket.size == 1 -> Utils.expressText(text.replace("x", "*"))
+                                       listOpenBracket.size != listBackBracket.size -> fragment.getString(R.string.reg_bracket)
+                                       listOpenBracket.size > 1 && listOpenBracket.size == listBackBracket.size -> Utils.regOperatorBracket(text).toString()
+                                       else -> fragment.getString(R.string.reg_type)
+                                   }
+                               }
                         Log.d("result ", text)
                     }
                     text += when(index) {

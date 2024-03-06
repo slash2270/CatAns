@@ -30,6 +30,7 @@
     <string name="reg_bracket">請刪除多餘括號</string>
     <string name="reg_empty">請輸入數字符號</string>
     <string name="reg_type">請輸入正確計算格式</string>
+    <string name="currency_usd">Currency: USD</string>
     <string-array name="calculator">
         <item>C</item>
         <item>()</item>

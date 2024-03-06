@@ -13,7 +13,7 @@ abstract class BaseFragment : Fragment() {
 
     lateinit var enumUtils: EnumUtils
     private var _binding: FragmentBaseBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     private val viewModel by lazy { BaseViewModel() }
 
     override fun onCreateView(
@@ -29,11 +29,13 @@ abstract class BaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         when (enumUtils) {
             EnumUtils.Departure, EnumUtils.Inbound -> {
+                binding.itemCurrency.root.visibility = View.GONE
                 viewModel.dataAirport(this, enumUtils)
                 viewModel.adapterAirport(this, binding)
                 context?.let { viewModel.recyclerAirport(it, binding) }
             }
             EnumUtils.Currency -> {
+                binding.itemCurrency.root.visibility = View.VISIBLE
                 viewModel.adapterData(this, binding)
                 viewModel.dataCurrency(this, binding)
                 viewModel.listData.observe(viewLifecycleOwner) {

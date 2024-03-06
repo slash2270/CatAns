@@ -119,7 +119,7 @@ class Utils {
 
         fun regNumberPreviousZero(text: String): Boolean {
             if (text.isNotEmpty()) {
-                return Regex("[0)]").containsMatchIn(text[text.length - 1].toString())
+                return Regex("0").containsMatchIn(text[text.length - 1].toString())
             }
             return false
         }
@@ -151,26 +151,14 @@ class Utils {
         }
 
         fun regOperatorBracket(text: String): Any {
-            var subText: String
-            val listBracket = arrayListOf<String>()
+            var listBracket = arrayListOf<String>()
             val listOperator = regOperatorBetweenBracket(text)
             for(i in listOperator.indices) {
-                subText = if (i == 0) text.substring(0, listOperator[i]) else text.substring(listOperator[i - 1] + 1, listOperator[i])
-                subText = subText.replace("x", "*")
-                listBracket.add(
-                    if (subText.contains("(")) {
-                    expressText(subText.replace("(", "").replace(")", ""))
-                } else {
-                    subText
-                })
+                var subText = if (i == 0) text.substring(0, listOperator[i]) else text.substring(listOperator[i - 1] + 1, listOperator[i])
+                listBracket = subText(subText, listBracket)
                 if (i == listOperator.size - 1) {
                     subText = text.substring(listOperator[i] + 1, text.length).replace("x", "*")
-                    listBracket.add(
-                        if (subText.contains("(")) {
-                            expressText(subText.replace("(", "").replace(")", ""))
-                        } else {
-                            subText
-                        })
+                    listBracket = subText(subText, listBracket)
                 }
             }
             Log.d("listBracket", listBracket.toString())
@@ -187,6 +175,17 @@ class Utils {
             val number = Expression(getText).calculate()
             Log.d("regOperatorBracket", number.toString())
             return if (number % 1 == 0.0) number.toInt() else number
+        }
+
+        private fun subText(subText: String, listBracket: ArrayList<String>): ArrayList<String> {
+            val sub = subText.replace("x", "*")
+            listBracket.add(
+                if (sub.contains("(")) {
+                    expressText(subText.replace("(", "").replace(")", ""))
+                } else {
+                    sub
+                })
+            return listBracket
         }
 
         fun expressText(text: String): String {

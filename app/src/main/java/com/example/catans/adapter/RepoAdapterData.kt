@@ -2,7 +2,6 @@ package com.example.catans.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -21,26 +20,16 @@ class RepoAdapterData(private val fragment: Fragment, private val liveData: Muta
 ) {
 
     private lateinit var itemViewBinding: ItemDataBinding
-    private var listClick = arrayListOf<Boolean>()
     private var index = MutableLiveData<Int>()
 
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<DataChild>() {
-            override fun areItemsTheSame(oldItem: DataChild, newItem: DataChild): Boolean {
-                return oldItem == newItem
-            }
-            override fun areContentsTheSame(oldItem: DataChild, newItem: DataChild): Boolean {
-                return oldItem == newItem
-            }
+            override fun areItemsTheSame(oldItem: DataChild, newItem: DataChild): Boolean = oldItem == newItem
+            override fun areContentsTheSame(oldItem: DataChild, newItem: DataChild): Boolean = oldItem == newItem
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        if (listClick.isEmpty() && liveData.value?.isNotEmpty() == true) {
-            liveData.value?.forEach { _ ->
-                listClick.add(false)
-            }
-        }
         itemViewBinding = DataBindingUtil.inflate(LayoutInflater.from(fragment.context), R.layout.item_data, parent, false)
         return ItemViewHolder(itemViewBinding, fragment)
     }
@@ -57,29 +46,24 @@ class RepoAdapterData(private val fragment: Fragment, private val liveData: Muta
         llRoot.setOnClickListener {
             bottomSheetClick()
             val new = holder.absoluteAdapterPosition
-            if (listClick.isNotEmpty()) {
-                Log.d("RepoAdapterData old", index.value.toString())
-                Log.d("RepoAdapterData new", new.toString())
-                index.observe(fragment) { old ->
-                    if (old != null && old != new) {
-                        listClick[old] = false
-                        for (i in liveData.value?.indices!!) {
-                            listClick[i] = false
-                            itemClick(old, llRoot, tvCurrencyCode, tvCurrencyMoney)
-                        }
+            Log.d("RepoAdapterData old", index.value.toString())
+            Log.d("RepoAdapterData new", new.toString())
+            index.observe(fragment) { old ->
+                if (old != null && old != new) {
+                    for (i in liveData.value?.indices!!) {
+                        itemClick(llRoot, tvCurrencyCode, tvCurrencyMoney, listOf(R.color.purple_100, R.color.grey_500, R.color.grey_500))
                     }
                 }
-                listClick[new] = !listClick[new]
-                itemClick(new, llRoot, tvCurrencyCode, tvCurrencyMoney)
-                index.value = new
             }
+            itemClick(llRoot, tvCurrencyCode, tvCurrencyMoney, listOf(R.color.grey_500, R.color.purple_200,R.color.purple_200))
+            index.value = new
         }
     }
 
-    private fun itemClick(index: Int, llRoot: LinearLayout, tvCurrencyCode: TextView, tvCurrencyMoney: TextView) {
-        llRoot.background = ResourcesCompat.getDrawable(fragment.resources, if (listClick[index]) R.color.grey_500 else R.color.purple_100, fragment.activity?.theme)
-        tvCurrencyCode.setTextColor(ResourcesCompat.getColor(fragment.resources, if (listClick[index]) R.color.purple_200 else R.color.grey_500, fragment.activity?.theme))
-        tvCurrencyMoney.setTextColor(ResourcesCompat.getColor(fragment.resources, if (listClick[index]) R.color.purple_200 else R.color.grey_500, fragment.activity?.theme))
+    private fun itemClick(llRoot: LinearLayout, tvCurrencyCode: TextView, tvCurrencyMoney: TextView, listColor: List<Int>) {
+        llRoot.background = ResourcesCompat.getDrawable(fragment.resources, listColor[0], fragment.activity?.theme)
+        tvCurrencyCode.setTextColor(ResourcesCompat.getColor(fragment.resources, listColor[1], fragment.activity?.theme))
+        tvCurrencyMoney.setTextColor(ResourcesCompat.getColor(fragment.resources, listColor[2], fragment.activity?.theme))
     }
 
 }
