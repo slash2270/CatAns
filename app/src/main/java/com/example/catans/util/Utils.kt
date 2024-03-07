@@ -138,6 +138,8 @@ class Utils {
 
         fun regNumberPrevious(text: String): Boolean = Regex("[0-9]").containsMatchIn(text[text.length - 1].toString())
 
+        fun regBracketPrevious(text: String): Boolean = Regex("[)(]").containsMatchIn(text[text.length - 1].toString())
+
         fun regNumberNext(text: String, index: Int): Boolean = Regex("[0-9]").containsMatchIn(text[index].toString())
 
         fun regBracketOpenNext(text: String, index: Int): Boolean = Regex("[(]").containsMatchIn(text[index].toString())
@@ -183,13 +185,13 @@ class Utils {
         }
 
         private fun subText(subText: String, listBracket: ArrayList<String>): ArrayList<String> {
-            val sub = subText.replace("x", "*")
-            listBracket.add(
-                if (sub.contains("(")) {
-                    expressText(subText.replace("(", "").replace(")", ""))
-                } else {
-                    sub
-                })
+            val sub =
+            if (subText.contains("(") || subText.contains(")")) {
+                subText.replace("(", "").replace(")", "")
+            } else {
+                subText
+            }.replace("x", "*")
+            listBracket.add(expressText(sub))
             return listBracket
         }
 

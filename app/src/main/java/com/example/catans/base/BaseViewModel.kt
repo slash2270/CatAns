@@ -197,7 +197,7 @@ open class BaseViewModel: ViewModel() {
         ivRemove.setOnClickListener {
             val index = editText.selectionEnd
             if (index >= 1) {
-                editText.text?.delete(index - 1, index)
+                text = editText.text?.delete(index - 1, index).toString()
             }
         }
         listGrid.value = list
@@ -230,7 +230,7 @@ open class BaseViewModel: ViewModel() {
                             text.indexOf(")") == text.length - 1 -> ")"
                             listOpenBracket.size > listBackBracket.size
                                     && (Utils.regNumberNext(text,text.indexOf("(") + 1) || Utils.regBracketOpenNext(text,text.indexOf("(") + 1))
-                                    && Utils.regNumberPrevious(text) -> ")"
+                                    && (Utils.regBracketPrevious(text) || Utils.regNumberPrevious(text)) -> ")"
                             listOpenBracket.size == listBackBracket.size
                                     && (Utils.regCalculatorNext(text,text.indexOf(")") + 1) || Utils.regBracketBackNext(text,text.indexOf(")") + 1))
                                     && Utils.regCalculatorPrevious(text) -> "("
