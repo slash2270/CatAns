@@ -3,11 +3,11 @@ package com.example.catans.base
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.GridView
 import android.widget.ImageView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +26,7 @@ import com.example.catans.model.Airport
 import com.example.catans.model.DataChild
 import com.example.catans.model.DataModel
 import com.example.catans.repo.Repository
+import com.example.catans.util.EnumCurrencyUtils
 import com.example.catans.util.EnumUtils
 import com.example.catans.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -38,7 +39,7 @@ import kotlinx.coroutines.launch
 open class BaseViewModel: ViewModel() {
 
     private val listAirport: MutableLiveData<List<Airport>?> = MutableLiveData<List<Airport>?>()
-    var listData: MutableLiveData<ArrayList<DataChild>> = MutableLiveData<ArrayList<DataChild>>()
+    private var listData: MutableLiveData<ArrayList<DataChild>> = MutableLiveData<ArrayList<DataChild>>()
     private val listGrid: MutableLiveData<Array<String>> = MutableLiveData<Array<String>>()
     private lateinit var repoAdapterAirport: RepoAdapterAirport
     private lateinit var repoAdapterData: RepoAdapterData
@@ -47,6 +48,39 @@ open class BaseViewModel: ViewModel() {
     private var handler: Handler = Handler(Looper.getMainLooper())
     private var runnableTime: Runnable? = null
     private lateinit var text: String
+
+    fun initCurrency(fragment: Fragment, binding: FragmentBaseBinding) {
+        val tvEditCurrency = binding.itemCurrency.tvEditCurrency
+        tvEditCurrency.requestFocus()
+        tvEditCurrency.addTextChangedListener {
+            tvEditCurrency.setSelection(tvEditCurrency.length())
+        }
+        binding.itemCurrency.currencyButton.setOnClickListener {
+            val text = tvEditCurrency.text.toString()
+            when {
+                tvEditCurrency.text == null -> tvEditCurrency.setText(fragment.getString(R.string.currency_code_empty))
+                tvEditCurrency.text?.isEmpty() == true -> tvEditCurrency.setText(fragment.getString(R.string.currency_code_empty))
+                else ->
+                    if (text != Utils.AUD && text != Utils.CNY && text != Utils.EUR && text != Utils.HKD && text != Utils.JPY && text != Utils.USD) {
+                        tvEditCurrency.setText(fragment.getString(R.string.currency_code_capital))
+                    } else {
+                        val enum = when(text) {
+                            Utils.AUD -> EnumCurrencyUtils.AUD
+                            Utils.CNY -> EnumCurrencyUtils.CNY
+                            Utils.EUR -> EnumCurrencyUtils.EUR
+                            Utils.HKD -> EnumCurrencyUtils.HKD
+                            Utils.JPY -> EnumCurrencyUtils.JPY
+                            Utils.USD -> EnumCurrencyUtils.USD
+                            else -> EnumCurrencyUtils.USD
+                        }
+                        tvEditCurrency.hint = "Code: $text"
+                        dataCurrency(fragment, binding, enum)
+                        adapterData(fragment, binding, enum)
+                        recyclerCurrency(fragment, binding)
+                    }
+            }
+        }
+    }
 
     private suspend fun dataUpdate(getData: () -> Unit) {
         delay(Utils.TIME_REPEAT)
@@ -70,9 +104,9 @@ open class BaseViewModel: ViewModel() {
         })
     }
 
-    fun dataCurrency(fragment: Fragment, binding: FragmentBaseBinding) {
+    fun dataCurrency(fragment: Fragment, binding: FragmentBaseBinding, enumCurrencyUtils: EnumCurrencyUtils) {
         viewModelScope.launch {
-            listData = DataModel().getDataCurrency(viewModelScope, binding, listData).await()
+            listData = DataModel().getDataCurrency(viewModelScope, binding, listData, enumCurrencyUtils).await()
             Log.d("BaseViewModel currency","${listData.value?.size}")
             listData.observe(fragment) { currency ->
                 viewModelScope.launch(Dispatchers.Main) {
@@ -85,7 +119,7 @@ open class BaseViewModel: ViewModel() {
         }
     }
 
-    fun recyclerCurrency(binding: FragmentBaseBinding, fragment: Fragment) {
+    fun recyclerCurrency(fragment: Fragment, binding: FragmentBaseBinding) {
         fragment.context?.let { binding.recyclerView.setPadding(Utils.dpToPixel(it,12), Utils.dpToPixel(it,12), Utils.dpToPixel(it,12), Utils.dpToPixel(it,12)) }
         binding.recyclerView.layoutManager = LinearLayoutManager(fragment.context)
         binding.recyclerView.adapter = repoAdapterData
@@ -98,14 +132,16 @@ open class BaseViewModel: ViewModel() {
         })
     }
 
-    fun adapterAirport(fragment: Fragment, binding: FragmentBaseBinding) {
+    fun adapterAirport(fragment: Fragment, binding: FragmentBaseBinding, enumUtils: EnumUtils) {
         repoAdapterAirport.addLoadStateListener {
-            loadState(fragment, it, binding)
+            loadState(it, binding) {
+                dataAirport(fragment, enumUtils)
+            }
         }
     }
 
-    fun adapterData(fragment: Fragment, binding: FragmentBaseBinding) {
-        repoAdapterData = RepoAdapterData(fragment, listData) {
+    fun adapterData(fragment: Fragment, binding: FragmentBaseBinding, enumCurrencyUtils: EnumCurrencyUtils) {
+        repoAdapterData = RepoAdapterData(fragment) {
             bottomSheet(fragment)
             dialog?.let { bottomSheetClick(fragment, it, behavior) }
         }
@@ -113,11 +149,13 @@ open class BaseViewModel: ViewModel() {
             repoAdapterData.retry()
         })
         repoAdapterData.addLoadStateListener {
-            loadState(fragment, it, binding)
+            loadState(it, binding) {
+                dataCurrency(fragment, binding, enumCurrencyUtils)
+            }
         }
     }
 
-    private fun loadState(fragment: Fragment, state : CombinedLoadStates, binding: FragmentBaseBinding) {
+    private fun loadState(state : CombinedLoadStates, binding: FragmentBaseBinding, getData: () -> Unit) {
         when (state.refresh) {
             is LoadState.NotLoading -> {
                 binding.progressCircular.visibility = View.INVISIBLE
@@ -129,14 +167,14 @@ open class BaseViewModel: ViewModel() {
             }
             is LoadState.Error -> {
                 binding.progressCircular.visibility = View.INVISIBLE
-                error(fragment, binding)
+                error(binding, getData)
             }
         }
     }
 
-    private fun error(fragment: Fragment, binding: FragmentBaseBinding) {
+    private fun error(binding: FragmentBaseBinding, getData: () -> Unit) {
         binding.error.retryButton.setOnClickListener {
-            dataCurrency(fragment, binding)
+            getData()
         }
     }
 
@@ -151,8 +189,11 @@ open class BaseViewModel: ViewModel() {
         val ivRemove = view.findViewById<ImageView>(R.id.ivRemove)
         text = editText.text.toString()
         editText.requestFocus()
-        editText.inputType = InputType.TYPE_NULL
-        editText.setRawInputType(InputType.TYPE_NULL)
+        editText.addTextChangedListener { edit ->
+            if (!edit.isNullOrEmpty()) {
+                editText.setSelection(edit.length)
+            }
+        }
         ivRemove.setOnClickListener {
             val index = editText.selectionEnd
             if (index >= 1) {

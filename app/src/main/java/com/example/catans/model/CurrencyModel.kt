@@ -72,12 +72,12 @@ data class Data(
 //    @SerializedName(Utils.PHP) val php: Double = 0.0,
 //    @SerializedName(Utils.PLN) val pln: Double = 0.0,
 //    @SerializedName(Utils.RON) val ron: Double = 0.0,
-    @SerializedName(Utils.RUB) val rub: Double = 0.0,
+//    @SerializedName(Utils.RUB) val rub: Double = 0.0,
 //    @SerializedName(Utils.SEK) val sek: Double = 0.0,
 //    @SerializedName(Utils.SGD) val sgd: Double = 0.0,
 //    @SerializedName(Utils.THB) val thb: Double = 0.0,
 //    @SerializedName(Utils.TRY) val trY: Double = 0.0,
-//    @SerializedName(Utils.USD) val usd: Double = 0.0,
+    @SerializedName(Utils.USD) val usd: Double = 0.0,
 //    @SerializedName(Utils.ZAR) val zar: Double = 0.0,
 ) {
     fun toMap(): Map<String, Double?> {
@@ -108,12 +108,12 @@ data class Data(
 //            Utils.PHP to php,
 //            Utils.PLN to pln,
 //            Utils.RON to ron,
-            Utils.RUB to rub,
+//            Utils.RUB to rub,
 //            Utils.SEK to sek,
 //            Utils.SGD to sgd,
 //            Utils.THB to thb,
 //            Utils.TRY to trY,
-//            Utils.USD to usd,
+            Utils.USD to usd,
 //            Utils.ZAR to zar,
         )
     }

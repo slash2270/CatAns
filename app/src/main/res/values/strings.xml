@@ -30,7 +30,10 @@
     <string name="reg_bracket">請刪除多餘括號</string>
     <string name="reg_empty">請輸入數字符號</string>
     <string name="reg_type">請輸入正確計算格式</string>
-    <string name="currency_usd">Currency: USD</string>
+    <string name="currency_reset">轉換幣別</string>
+    <string name="currency_code">Code: USD</string>
+    <string name="currency_code_empty">如轉換幣別不可為空 請重新輸入！</string>
+    <string name="currency_code_capital">請輸入正確格式和6種代碼</string>
     <string-array name="calculator">
         <item>C</item>
         <item>()</item>

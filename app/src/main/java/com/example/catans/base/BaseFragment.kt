@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.catans.databinding.FragmentBaseBinding
+import com.example.catans.util.EnumCurrencyUtils
 import com.example.catans.util.EnumUtils
 
 abstract class BaseFragment : Fragment() {
@@ -31,16 +32,15 @@ abstract class BaseFragment : Fragment() {
             EnumUtils.Departure, EnumUtils.Inbound -> {
                 binding.itemCurrency.root.visibility = View.GONE
                 viewModel.dataAirport(this, enumUtils)
-                viewModel.adapterAirport(this, binding)
+                viewModel.adapterAirport(this, binding, enumUtils)
                 context?.let { viewModel.recyclerAirport(it, binding) }
             }
             EnumUtils.Currency -> {
                 binding.itemCurrency.root.visibility = View.VISIBLE
-                viewModel.adapterData(this, binding)
-                viewModel.dataCurrency(this, binding)
-                viewModel.listData.observe(viewLifecycleOwner) {
-                    viewModel.recyclerCurrency(binding, this)
-                }
+                viewModel.initCurrency(this, binding)
+                viewModel.dataCurrency(this, binding, EnumCurrencyUtils.USD)
+                viewModel.adapterData(this, binding, EnumCurrencyUtils.USD)
+                viewModel.recyclerCurrency(this, binding)
             }
         }
         binding.model = viewModel

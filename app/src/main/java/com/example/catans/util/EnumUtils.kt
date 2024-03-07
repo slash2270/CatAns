@@ -5,3 +5,12 @@ enum class EnumUtils {
     Inbound,
     Currency,
 }
+
+enum class EnumCurrencyUtils {
+    AUD,
+    CNY,
+    EUR,
+    HKD,
+    JPY,
+    USD,
+}

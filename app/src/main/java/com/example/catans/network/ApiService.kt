@@ -6,7 +6,12 @@ import com.example.catans.util.EnumUtils
 import com.example.catans.util.Utils
 import com.example.catans.util.Utils.Companion.URI_AIRPORT_DEPARTURE
 import com.example.catans.util.Utils.Companion.URI_AIRPORT_INBOUND
-import com.example.catans.util.Utils.Companion.URI_CURRENCY
+import com.example.catans.util.Utils.Companion.URI_CURRENCY_AUD
+import com.example.catans.util.Utils.Companion.URI_CURRENCY_CNY
+import com.example.catans.util.Utils.Companion.URI_CURRENCY_EUR
+import com.example.catans.util.Utils.Companion.URI_CURRENCY_HKD
+import com.example.catans.util.Utils.Companion.URI_CURRENCY_JPY
+import com.example.catans.util.Utils.Companion.URI_CURRENCY_USD
 import com.example.catans.util.Utils.Companion.URL_AIRPORT
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -17,9 +22,18 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface ApiService {
-
-    @GET(URI_CURRENCY)
-    fun getCurrency(): Call<Currency?>
+    @GET(URI_CURRENCY_AUD)
+    fun getCurrencyAUD(): Call<Currency?>
+    @GET(URI_CURRENCY_CNY)
+    fun getCurrencyCNY(): Call<Currency?>
+    @GET(URI_CURRENCY_EUR)
+    fun getCurrencyEUR(): Call<Currency?>
+    @GET(URI_CURRENCY_HKD)
+    fun getCurrencyHKD(): Call<Currency?>
+    @GET(URI_CURRENCY_JPY)
+    fun getCurrencyJPY(): Call<Currency?>
+    @GET(URI_CURRENCY_USD)
+    fun getCurrencyUSD(): Call<Currency?>
 
     @GET(URI_AIRPORT_DEPARTURE)
     suspend fun getAirportDeparture(@Query("page") page: Int, @Query("per_page") perPage: Int): List<Airport>?

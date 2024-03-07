@@ -45,6 +45,7 @@
                 android:id="@+id/no_data"
                 android:visibility="gone"
                 layout="@layout/view_no_data" />
+
             <!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
             <!--            android:id="@+id/fab"-->
             <!--            android:layout_width="wrap_content"-->

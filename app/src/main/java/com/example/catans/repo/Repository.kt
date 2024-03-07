@@ -8,8 +8,8 @@ import com.example.catans.model.Currency
 import com.example.catans.model.DataChild
 import com.example.catans.model.DataModel
 import com.example.catans.network.ApiService
+import com.example.catans.util.EnumCurrencyUtils
 import com.example.catans.util.EnumUtils
-import com.example.catans.util.Utils
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 
@@ -35,8 +35,16 @@ object Repository {
         ).flow
     }
 
-    fun getCurrency(): Call<Currency?> {
-        return ApiService.create(EnumUtils.Currency).getCurrency()
+    fun getCurrency(enumCurrencyUtils: EnumCurrencyUtils): Call<Currency?> {
+        val service = ApiService.create(EnumUtils.Currency)
+        return when(enumCurrencyUtils) {
+            EnumCurrencyUtils.AUD -> service.getCurrencyAUD()
+            EnumCurrencyUtils.CNY -> service.getCurrencyCNY()
+            EnumCurrencyUtils.EUR -> service.getCurrencyEUR()
+            EnumCurrencyUtils.HKD -> service.getCurrencyHKD()
+            EnumCurrencyUtils.JPY -> service.getCurrencyJPY()
+            EnumCurrencyUtils.USD -> service.getCurrencyUSD()
+        }
     }
 
 }

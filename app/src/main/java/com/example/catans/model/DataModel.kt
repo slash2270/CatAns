@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import com.example.catans.adapter.RepoAdapterAirport
 import com.example.catans.databinding.FragmentBaseBinding
 import com.example.catans.repo.Repository
+import com.example.catans.util.EnumCurrencyUtils
 import com.example.catans.util.EnumUtils
 import kotlinx.coroutines.*
 
@@ -31,9 +32,9 @@ class DataModel {
         return repoAdapter
     }
 
-    fun getDataCurrency(scope: CoroutineScope, binding: FragmentBaseBinding, getList: MutableLiveData<ArrayList<DataChild>>): Deferred<MutableLiveData<ArrayList<DataChild>>> {
+    fun getDataCurrency(scope: CoroutineScope, binding: FragmentBaseBinding, getList: MutableLiveData<ArrayList<DataChild>>, enumCurrencyUtils: EnumCurrencyUtils): Deferred<MutableLiveData<ArrayList<DataChild>>> {
         val list = arrayListOf<DataChild>()
-        Repository.getCurrency().enqueue(object : retrofit2.Callback<Currency?> {
+        Repository.getCurrency(enumCurrencyUtils).enqueue(object : retrofit2.Callback<Currency?> {
             override fun onResponse(call: retrofit2.Call<Currency?>, response: retrofit2.Response<Currency?>) {
                 val currency = response.body()
                 if (response.isSuccessful && currency != null && currency.data != null) {

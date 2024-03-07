@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="30dp"
+        android:padding="20dp"
         android:background="@color/purple_100"
         android:baselineAligned="false">
 

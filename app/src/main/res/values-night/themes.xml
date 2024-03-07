@@ -13,4 +13,20 @@
         <item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.CatAns.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlNormal">@color/purple_200</item>
+        <item name="colorControlActivated">@color/purple_200</item>
+    </style>
+
+    <style name="EditTextCalculator" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlNormal">@color/deep_green</item>
+        <item name="colorControlActivated">@color/deep_green</item>
+    </style>
+
+    <style name="EditTextCurrency" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorControlNormal">@color/grey_500</item>
+        <item name="colorControlActivated">@color/grey_500</item>
+    </style>
+
 </resources>

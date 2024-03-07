@@ -20,6 +20,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:theme="@style/Theme.CatAns.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

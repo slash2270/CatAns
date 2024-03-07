@@ -15,7 +15,9 @@ import com.example.catans.BR
 import com.example.catans.R
 import com.example.catans.databinding.ItemDataBinding
 import com.example.catans.model.DataChild
-class RepoAdapterData(private val fragment: Fragment, private val liveData: MutableLiveData<ArrayList<DataChild>>, private val bottomSheetClick: () -> Unit) : PagingDataAdapter<DataChild, ItemViewHolder>(
+import com.example.catans.util.Utils
+
+class RepoAdapterData(private val fragment: Fragment, private val bottomSheetClick: () -> Unit) : PagingDataAdapter<DataChild, ItemViewHolder>(
     COMPARATOR
 ) {
 
@@ -41,18 +43,17 @@ class RepoAdapterData(private val fragment: Fragment, private val liveData: Muta
         val llRoot = holder.itemView.rootView.findViewById<LinearLayout>(R.id.ll_root)
         val tvCurrencyCode = holder.itemView.rootView.findViewById<TextView>(R.id.tvCurrencyCode)
         val tvCurrencyMoney= holder.itemView.rootView.findViewById<TextView>(R.id.tvCurrencyMoney)
-        tvCurrencyCode.text = item?.code
-        tvCurrencyMoney.text = item?.money
         llRoot.setOnClickListener {
+            fragment.activity?.let { activity ->
+                Utils.closeKeyboard(activity, activity.window.decorView)
+            }
             bottomSheetClick()
             val new = holder.absoluteAdapterPosition
             Log.d("RepoAdapterData old", index.value.toString())
             Log.d("RepoAdapterData new", new.toString())
             index.observe(fragment) { old ->
                 if (old != null && old != new) {
-                    for (i in liveData.value?.indices!!) {
-                        itemClick(llRoot, tvCurrencyCode, tvCurrencyMoney, listOf(R.color.purple_100, R.color.grey_500, R.color.grey_500))
-                    }
+                    itemClick(llRoot, tvCurrencyCode, tvCurrencyMoney, listOf(R.color.purple_100, R.color.grey_500, R.color.grey_500))
                 }
             }
             itemClick(llRoot, tvCurrencyCode, tvCurrencyMoney, listOf(R.color.grey_500, R.color.purple_200,R.color.purple_200))

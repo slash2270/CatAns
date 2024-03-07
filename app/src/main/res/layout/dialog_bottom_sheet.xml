@@ -22,41 +22,38 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="12dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tvEditCalculator"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:maxLines="1"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:cursorVisible="true"
-            android:textCursorDrawable="@drawable/currency_bottom_sheet_cursor"
-            android:selectAllOnFocus="true"
-            android:textSize="30sp" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:paddingHorizontal="24dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvEditCalculator"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:selectAllOnFocus="true"
+                android:textSize="30sp"
+                android:maxLines="1"
+                android:theme="@style/EditTextCalculator"/>
 
-            <ImageView
-                android:id="@+id/ivRemove"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:contentDescription="@string/todo"
-                android:src="@drawable/icon_back_space" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp">
 
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/ivRemove"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/icon_back_space" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/grey" />
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <GridView
             android:id="@+id/gridView"
