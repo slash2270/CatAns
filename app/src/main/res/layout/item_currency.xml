@@ -26,7 +26,8 @@
             android:hint="@string/currency_code"
             android:selectAllOnFocus="true"
             android:textSize="20sp"
-            android:maxEms="3"
+            android:inputType="textCapCharacters"
+            android:maxLength="3"
             android:maxLines="1"
             android:theme="@style/EditTextCurrency"/>
 
